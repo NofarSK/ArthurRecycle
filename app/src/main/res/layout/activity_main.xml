@@ -5,17 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity"
+    android:background="#FFC107">
 
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFC107"
+        android:fontFamily="@font/archivo_black"
         android:gravity="center"
+        android:shadowColor="#6C2828"
+        android:shadowDx="10"
+        android:shadowDy="10"
+        android:shadowRadius="22"
         android:text="Arthur"
-        android:textSize="28dp"
-        android:textStyle="bold"/>
+        android:textColor="#E8291B"
+        android:textSize="70dp"
+        android:textStyle="bold"
+        android:paddingTop="5dp"/>
 
     <EditText
         android:id="@+id/editTextText"
@@ -23,10 +32,23 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:hint="Search" />
+        android:textSize="26sp"
+        android:hint="Search"
+        android:paddingTop="0dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/resView"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/resView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"/>
+    </FrameLayout>
+
+
+
 </LinearLayout>

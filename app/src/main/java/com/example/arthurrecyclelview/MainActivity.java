@@ -1,5 +1,6 @@
 package com.example.arthurrecyclelview;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -39,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
             dataSet.add((new DataModel(
                     MyData.nameArray[i],
                     MyData.description[i],
-                    MyData.drawableArray[i]
+                    MyData.drawableArray[i],
+                    MyData.moreDescription[i]
             )));
         }
 
@@ -60,8 +65,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new CustomerAdapter(dataSet);
+        adapter = new CustomerAdapter(dataSet , new CustomerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(DataModel details) {
+                showDescription(details.getMoreDescription() , details.getName());
+            }
+        });
         recyclerView.setAdapter(adapter);
+
+        final TextView title = findViewById(R.id.textView);
+
+        final Animation zoom = AnimationUtils.loadAnimation(this , R.anim.zoom);
+        title.startAnimation(zoom);
+    }
+
+    private void showDescription(String message , String title){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+
+        builder.setCancelable(true);
+        builder.create();
+        builder.show();
     }
 
     private void filter(String text)
@@ -79,3 +104,4 @@ public class MainActivity extends AppCompatActivity {
         adapter.filterList(filteredList);
     }
 }
+

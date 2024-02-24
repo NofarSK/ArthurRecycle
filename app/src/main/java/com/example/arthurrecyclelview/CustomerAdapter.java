@@ -1,13 +1,17 @@
 package com.example.arthurrecyclelview;
 
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,8 +19,10 @@ import java.util.ArrayList;
 public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyViewHolder> {
 
     private ArrayList<DataModel> dataSet;
-    public CustomerAdapter(ArrayList<DataModel> dataSet) {
-        this.dataSet = dataSet;
+    private ItemClickListener itemClickListener;
+    public CustomerAdapter(ArrayList<DataModel> dataSet , ItemClickListener itemClickListener) {
+        this.dataSet = dataSet ;
+        this.itemClickListener = itemClickListener;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
@@ -24,6 +30,8 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
         TextView textViewName;
         TextView textViewDescription;
         ImageView imageView;
+
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textView2);
@@ -47,12 +55,23 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.MyView
         holder.textViewDescription.setText(dataSet.get(position).getDescription());
         holder.imageView.setImageResource(dataSet.get(position).getImage());
 
+        holder.itemView.setOnClickListener(v -> {
+            itemClickListener.onItemClick(dataSet.get(position));
+        });
+
+        Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.anim_one);
+
+        holder.itemView.startAnimation(animation);
 
     }
 
     @Override
     public int getItemCount() {
         return dataSet.size();
+    }
+
+    public interface ItemClickListener{
+        void  onItemClick(DataModel details);
     }
 
     public void filterList(ArrayList<DataModel> filteredList){
